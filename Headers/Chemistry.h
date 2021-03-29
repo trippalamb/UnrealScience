@@ -9,10 +9,13 @@ namespace Chemistry
 	enum class AtomType { Hydrogen, Helium, Lithium, Beryllium, Boron, Carbon, Nitrogen, Oxygen, Flourine, Neon };
 	enum class BondType { Single, Double, Triple };
 
-	AtomType strToAtomType(string str);
-	BondType strToBondType(string str);
-	string atomTypeToStr(AtomType type);
-	string bondTypeToStr(BondType type);
+	double GetAtomicRadius(AtomType type);
+	AtomType StrToAtomType(string str);
+	string AtomTypeToStr(AtomType type);
+
+
+	BondType StrToBondType(string str);
+	string BondTypeToStr(BondType type);
 
 
 	class Bond;
@@ -25,17 +28,17 @@ namespace Chemistry
 
 	struct AtomicProperties
 	{
-		double vdwRadius = -1.0; //[angstroms] Van der Waals radius
+		double VdwRadius = -1.0; //[angstroms] Van der Waals radius
 
 		AtomicProperties();
 		AtomicProperties(AtomType type);
 	private:
-		void construct(double vdwRadius);
+		void Construct(double vdwRadius);
 	};
 
 	struct AtomicState
 	{
-		double pos[3];
+		double Pos[3];
 		AtomicState();
 		AtomicState(double pos[3]);
 	};
@@ -47,49 +50,50 @@ namespace Chemistry
 	public:
 		Atom();
 		Atom(AtomType type, double pos[3]);
-		void addBond(Bond& bond);
-		double* getPos();
-		string toString();
+		void AddBond(Bond& bond);
+		double* GetPos();
+		AtomType GetType();
+		string ToString();
 	private:
-		AtomType type;
-		AtomicProperties properties;
-		AtomicState state;
-		vector<Bond *> bonds;
+		AtomType Type;
+		AtomicState State;
+		vector<Bond *> Bonds;
 	};
 
 	class Bond
 	{
 	public:
 		Bond(BondType type, Atom& first, Atom& second);
-		string toString();
+		string ToString();
 	private:
-		BondType type;
-		Atom* first;
-		Atom* second;
+		BondType Type;
+		Atom* First;
+		Atom* Second;
 	};
 
 	class Molecule
 	{
 	public:
 		Molecule(string filename);
-		double* getAtomPos(int i);
-		int getNumOfAtoms();
-		string toString();
+		double* GetAtomPos(int i);
+		AtomType GetAtomType(int i);
+		int GetNumOfAtoms();
+		string ToString();
 	private:
-		string filename;
-		string name;
-		string timestep;
-		string comment;
-		Atom** atoms;
-		Bond** bonds;
-		int nAtoms;
-		int nBonds;
+		string Filename;
+		string Name;
+		string Timestep;
+		string Comment;
+		Atom** Atoms;
+		Bond** Bonds;
+		int N_Atoms;
+		int N_Bonds;
 
-		void parseFile(string filename);
-		void parseSDF(string filename);
-		void parseSDF_header(ifstream* sdf);
-		void parseSDF_count(ifstream* sdf);
-		void parseSDF_atoms(ifstream* sdf);
-		void parseSDF_bonds(ifstream* sdf);
+		void ParseFile(string filename);
+		void ParseSDF(string filename);
+		void ParseSDF_header(ifstream* sdf);
+		void ParseSDF_count(ifstream* sdf);
+		void ParseSDF_atoms(ifstream* sdf);
+		void ParseSDF_bonds(ifstream* sdf);
 	};
 }

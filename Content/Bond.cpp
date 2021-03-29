@@ -1,19 +1,19 @@
-#include "Chemistry.h"
+#include "..\Headers\Chemistry.h"
 
 using namespace Chemistry;
 
 Bond::Bond(BondType type, Atom& first, Atom& second)
 {
-	this->type = type;
-	this->first = &first;
-	this->second = &second;
+	this->Type = type;
+	this->First = &first;
+	this->Second = &second;
 
 }
 
-string Bond::toString() {
+string Bond::ToString() {
 	string result = "";
-	result += this->first->toString();
-	result += bondTypeToStr(this->type);
-	result += this->second->toString();
+	result += this->First->ToString();
+	result += BondTypeToStr(this->Type);
+	result += this->Second->ToString();
 	return result;
 }

@@ -1,4 +1,4 @@
-#include "Chemistry.h"
+#include "..\Headers\Chemistry.h"
 #include <vector>
 
 using namespace std;
@@ -8,22 +8,27 @@ Atom::Atom() {}
 
 Atom::Atom(AtomType type, double pos[3])
 {
-	this->type = type;
-	this->properties = AtomicProperties(type);
-	this->state = AtomicState(pos);
+	this->Type = type;
+	//this->Properties = AtomicProperties(type);
+	this->State = AtomicState(pos);
 }
 
-void Atom::addBond(Bond& bond) 
+void Atom::AddBond(Bond& bond) 
 {
-	this->bonds.push_back(&bond);
+	this->Bonds.push_back(&bond);
 }
 
-double* Atom::getPos()
+double* Atom::GetPos()
 {
-	return this->state.pos;
+	return this->State.Pos;
 }
 
-string Atom::toString()
+AtomType Atom::GetType()
 {
-	return atomTypeToStr(this->type);
+	return this->Type;
+}
+
+string Atom::ToString()
+{
+	return AtomTypeToStr(this->Type);
 }

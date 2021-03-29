@@ -1,4 +1,4 @@
-#include "Chemistry.h"
+#include "..\Headers\Chemistry.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -11,45 +11,50 @@ string getExtension(string fn);
 
 Molecule::Molecule(string filename)
 {
-	this->filename = filename;
-	this->parseFile(filename);
+	this->Filename = filename;
+	this->ParseFile(filename);
 }
 
-double* Molecule::getAtomPos(int i)
+double* Molecule::GetAtomPos(int i)
 {
-	return this->atoms[i]->getPos();
+	return this->Atoms[i]->GetPos();
 }
 
-int Molecule::getNumOfAtoms()
+AtomType Molecule::GetAtomType(int i)
 {
-	return this->nAtoms;
+	return this->Atoms[i]->GetType();
 }
 
-string Molecule::toString()
+int Molecule::GetNumOfAtoms()
+{
+	return this->N_Atoms;
+}
+
+string Molecule::ToString()
 {
 	string result = "";
 
-	for (int i = 0; i < this->nAtoms; i++)
+	for (int i = 0; i < this->N_Atoms; i++)
 	{
-		result += this->atoms[i]->toString();
+		result += this->Atoms[i]->ToString();
 	}
 
-	for (int i = 0; i < this->nBonds; i++)
+	for (int i = 0; i < this->N_Bonds; i++)
 	{
-		result += this->bonds[i]->toString();
+		result += this->Bonds[i]->ToString();
 	}
 
 	return result;
 }
 
-void Molecule::parseFile(string filename)
+void Molecule::ParseFile(string filename)
 {
 
 	string ext = getExtension(filename);
 
 	if (ext.compare("sdf") == 0)
 	{
-		this->parseSDF(filename);
+		this->ParseSDF(filename);
 	}
 	else 
 	{
@@ -58,40 +63,40 @@ void Molecule::parseFile(string filename)
 	}
 }
 
-void Molecule::parseSDF(string filename) 
+void Molecule::ParseSDF(string filename) 
 {
 	ifstream* sdf = new ifstream(filename);
 
-	this->parseSDF_header(sdf);
-	this->parseSDF_count(sdf);
-	this->parseSDF_atoms(sdf);
-	this->parseSDF_bonds(sdf);
+	this->ParseSDF_header(sdf);
+	this->ParseSDF_count(sdf);
+	this->ParseSDF_atoms(sdf);
+	this->ParseSDF_bonds(sdf);
 
 }
 
-void Molecule::parseSDF_header(ifstream* sdf) 
+void Molecule::ParseSDF_header(ifstream* sdf) 
 {
-	getline(*sdf, this->name);
-	getline(*sdf, this->timestep);
-	getline(*sdf, this->comment);
+	getline(*sdf, this->Name);
+	getline(*sdf, this->Timestep);
+	getline(*sdf, this->Comment);
 }
 
-void Molecule::parseSDF_count(ifstream* sdf)
+void Molecule::ParseSDF_count(ifstream* sdf)
 {
 	string line;
 	getline(*sdf, line);
-	this->nAtoms = stoi(line.substr(0, 3));
-	this->nBonds = stoi(line.substr(3, 3));
+	this->N_Atoms = stoi(line.substr(0, 3));
+	this->N_Bonds = stoi(line.substr(3, 3));
 
-	this->atoms = new Atom * [nAtoms];
-	this->bonds = new Bond * [nBonds];
+	this->Atoms = new Atom * [N_Atoms];
+	this->Bonds = new Bond * [N_Bonds];
 }
 
-void Molecule::parseSDF_atoms(ifstream* sdf)
+void Molecule::ParseSDF_atoms(ifstream* sdf)
 {
 	string line;
 
-	for (int i = 0; i < this->nAtoms; i++)
+	for (int i = 0; i < this->N_Atoms; i++)
 	{
 		double pos[3];
 		string element;
@@ -102,17 +107,17 @@ void Molecule::parseSDF_atoms(ifstream* sdf)
 		pos[2] = stod(line.substr(20, 10));
 		element = line.substr(30, 2);
 
-		AtomType type = strToAtomType(element);
-		this->atoms[i] = new Atom(type, pos);
+		AtomType type = StrToAtomType(element);
+		this->Atoms[i] = new Atom(type, pos);
 
 	}
 }
 
-void Molecule::parseSDF_bonds(ifstream* sdf)
+void Molecule::ParseSDF_bonds(ifstream* sdf)
 {
 	string line;
 
-	for (int i = 0; i < this->nBonds; i++)
+	for (int i = 0; i < this->N_Bonds; i++)
 	{
 
 		getline(*sdf, line);
@@ -120,8 +125,8 @@ void Molecule::parseSDF_bonds(ifstream* sdf)
 		int atom2 = stoi(line.substr(3, 3))-1;
 		string order = line.substr(6, 3);
 
-		BondType type = strToBondType(order);
-		this->bonds[i] = new Bond(type, *this->atoms[atom1], *this->atoms[atom2]);
+		BondType type = StrToBondType(order);
+		this->Bonds[i] = new Bond(type, *this->Atoms[atom1], *this->Atoms[atom2]);
 
 	}
 }

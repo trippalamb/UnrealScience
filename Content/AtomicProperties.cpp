@@ -1,4 +1,4 @@
-#include "Chemistry.h"
+#include "..\Headers\Chemistry.h"
 #include <iostream>
 
 using namespace std;
@@ -10,10 +10,10 @@ AtomicProperties::AtomicProperties(AtomType type)
 {
 	switch (type) {
 	case(AtomType::Hydrogen):
-		this->construct(1.2);
+		this->Construct(.012);
 		break;
 	case(AtomType::Oxygen):
-		this->construct(1.52);
+		this->Construct(0.0152);
 		break;
 	default:
 		cout << "This atom type is not yet supported.";
@@ -21,7 +21,7 @@ AtomicProperties::AtomicProperties(AtomType type)
 	}
 }
 
-void AtomicProperties::construct(double vdwRadius)
+void AtomicProperties::Construct(double vdwRadius)
 {
-	this->vdwRadius = vdwRadius;
+	this->VdwRadius = vdwRadius;
 }

@@ -4,55 +4,55 @@ using namespace BasicODESystems;
 
 Pendulum::Pendulum(double t, double px, double vx, RKConfig config)
 {
-	this->t = t;
-	this->px = px;
-	this->vx = vx;
-	this->ax = 0.0;
+	this->T = t;
+	this->Px = px;
+	this->Vx = vx;
+	this->Ax = 0.0;
 
-	this->px0 = px;
-	this->vx0 = vx;
-	this->omega = sqrt(2.0);
-	this->rk = new RK(2, config);
-	this->odeSetup();
+	this->Px0 = px;
+	this->Vx0 = vx;
+	this->Omega = sqrt(2.0);
+	this->Rk = new RK(2, config);
+	this->OdeSetup();
 
 }
 
-void Pendulum::timestep(double targetTime)
+void Pendulum::Timestep(double targetTime)
 {
-	this->t = this->rk->motion(*this, this->t, targetTime);
+	this->T = this->Rk->Motion(*this, this->T, targetTime);
 }
 
-void Pendulum::setToTruth(double targetTime)
+void Pendulum::SetToTruth(double targetTime)
 {
-	double *data = this->solution(targetTime);
+	double *data = this->Solution(targetTime);
 }
 
-void Pendulum::odeSetup()
+void Pendulum::OdeSetup()
 {
-	this->rk->system[0]->connect(this->px, this->vx, "position");
-	this->rk->system[1]->connect(this->vx, this->ax, "velocity");
+	this->Rk->System[0]->Connect(this->Px, this->Vx, "position");
+	this->Rk->System[1]->Connect(this->Vx, this->Ax, "velocity");
 }
 
-void Pendulum::updateODEs()
+void Pendulum::UpdateODEs()
 {
-	this->ax = -(pow(this->omega, 2.0) * this->px);
+	this->Ax = -(pow(this->Omega, 2.0) * this->Px);
 }
 
-double* Pendulum::solution(double time)
+double* Pendulum::Solution(double time)
 {
-	double phi = atan2(-this->vx0, this->px0 * this->omega);
-	double amplitude = this->px0 / cos(phi);
+	double phi = atan2(-this->Vx0, this->Px0 * this->Omega);
+	double amplitude = this->Px0 / cos(phi);
 
-	double position = amplitude * cos(this->omega * time + phi);
-	double velocity = -this->omega * amplitude * sin(this->omega * time + phi);
-	double acceleration = -(this->omega * this->omega) * amplitude * cos(this->omega * time + phi);
+	double position = amplitude * cos(this->Omega * time + phi);
+	double velocity = -this->Omega * amplitude * sin(this->Omega * time + phi);
+	double acceleration = -(this->Omega * this->Omega) * amplitude * cos(this->Omega * time + phi);
 
 	static double result[4] = { time, position, velocity, acceleration };
 	return result;
 }
 
-double* Pendulum::getState()
+double* Pendulum::GetState()
 {
-	static double result[4] = { this->t, this->px, this->vx, this->ax };
+	static double result[4] = { this->T, this->Px, this->Vx, this->Ax };
 	return result;
 }

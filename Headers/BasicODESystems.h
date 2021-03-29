@@ -9,21 +9,21 @@ namespace BasicODESystems
 	{
 	public:
 		Pendulum(double t, double px, double vx, RKConfig config);
-		void timestep(double targetTime);
-		void setToTruth(double targetTime);
-		void odeSetup() override;
-		void updateODEs() override;
-		double* solution(double time);
-		double* getState();
+		void Timestep(double targetTime);
+		void SetToTruth(double targetTime);
+		void OdeSetup() override;
+		void UpdateODEs() override;
+		double* Solution(double time);
+		double* GetState();
 	private:
-		double t;
-		double px;
-		double vx;
-		double ax;
-		double px0;
-		double vx0;
-		double omega;
-		RK *rk;
+		double T;
+		double Px;
+		double Vx;
+		double Ax;
+		double Px0;
+		double Vx0;
+		double Omega;
+		RK *Rk;
 	};
 }
 
