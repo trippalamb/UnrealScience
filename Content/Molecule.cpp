@@ -8,6 +8,8 @@ using namespace std;
 using namespace Chemistry;
 
 string getExtension(string fn);
+string removeLeadingWhiteSpace(string in);
+
 
 Molecule::Molecule(string filename)
 {
@@ -105,7 +107,7 @@ void Molecule::ParseSDF_atoms(ifstream* sdf)
 		pos[0] = stod(line.substr(0, 10));
 		pos[1] = stod(line.substr(10, 10));
 		pos[2] = stod(line.substr(20, 10));
-		element = line.substr(30, 2);
+		element = removeLeadingWhiteSpace(line.substr(30, 2));
 
 		AtomType type = StrToAtomType(element);
 		this->Atoms[i] = new Atom(type, pos);
@@ -142,3 +144,12 @@ string getExtension(string fn)
 
 	return fn.substr(i + 1);
 }
+
+string removeLeadingWhiteSpace(string in)
+{
+	const string WHITESPACE = " \n\r\t\f\v";
+	int start = in.find_first_not_of(WHITESPACE);
+	return in.substr(start);
+}
+
+
