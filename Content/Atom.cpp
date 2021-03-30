@@ -30,5 +30,6 @@ AtomType Atom::GetType()
 
 string Atom::ToString()
 {
-	return AtomTypeToStr(this->Type);
+	AtomNames names = AtomTypeToNames(this->Type);
+	return names.Symbol;
 }

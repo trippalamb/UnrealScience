@@ -13,9 +13,22 @@ namespace Chemistry
 	};
 	enum class BondType { Single, Double, Triple };
 
+	struct AtomNames
+	{
+		string Full;
+		string Symbol;
+		string Number;
+		AtomNames(string full, string symbol, string num)
+		{
+			this->Full = full;
+			this->Symbol = symbol;
+			this->Number = num;
+		}
+	};
+
 	double GetAtomicRadius(AtomType type);
 	AtomType StrToAtomType(string str);
-	string AtomTypeToStr(AtomType type);
+	AtomNames AtomTypeToNames(AtomType type);
 
 
 	BondType StrToBondType(string str);

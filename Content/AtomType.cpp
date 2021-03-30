@@ -8,6 +8,8 @@ using namespace Chemistry;
 
 string capitalize(string in);
 
+
+
 //#TODO: add a bunch of atom types
 static unordered_map<string, AtomType> const str2type = { 
 	{"Hydrogen", AtomType::Hydrogen}, 
@@ -66,11 +68,25 @@ static unordered_map<string, AtomType> const str2type = {
 	{"18", AtomType::Argon}
 };
 
-//#TODO: find the way to properly build these maps for structs of data 
-//       so that you get get various naming choices back out from AtomType
-static unordered_map<AtomType, string> const type2str = {
-	{AtomType::Hydrogen, "H"},
-	{AtomType::Oxygen, "O"}
+static unordered_map<AtomType, AtomNames> const type2names = {
+	{AtomType::Hydrogen, *new AtomNames("Hydrogen", "H", "1")},
+	{AtomType::Helium, *new AtomNames("Helium", "He", "2")},
+	{AtomType::Lithium, *new AtomNames("Lithium", "Li", "3")},
+	{AtomType::Beryllium, *new AtomNames("Beryllium", "Be", "4")},
+	{AtomType::Boron, *new AtomNames("Boron", "B", "5")},
+	{AtomType::Carbon, *new AtomNames("Carbon", "C", "6")},
+	{AtomType::Nitrogen, *new AtomNames("Nitrogen", "N", "7")},
+	{AtomType::Oxygen, *new AtomNames("Oxygen", "O", "8")},
+	{AtomType::Flourine, *new AtomNames("Flourine", "F", "9")},
+	{AtomType::Neon, *new AtomNames("Neon", "Ne", "10")},
+	{AtomType::Sodium, *new AtomNames("Sodium", "Na", "11")},
+	{AtomType::Magnesium, *new AtomNames("Magnesium", "Mg", "12")},
+	{AtomType::Aluminum, *new AtomNames("Aluminum", "Al", "13")},
+	{AtomType::Silicon, *new AtomNames("Silicon", "Si", "14")},
+	{AtomType::Phosphorus, *new AtomNames("Phosphorus", "P", "15")},
+	{AtomType::Sulfur, *new AtomNames("Sulfur", "S", "16")},
+	{AtomType::Chlorine, *new AtomNames("Chlorine", "Cl", "17")},
+	{AtomType::Argon, *new AtomNames("Argon", "Ar", "18")}
 };
 
 //#TODO: find a way to map to instances of atomic properties
@@ -100,9 +116,9 @@ AtomType Chemistry::StrToAtomType(string str)
 	return useMap<AtomType, string>(str2type, capitalize(str));
 }
 
-string Chemistry::AtomTypeToStr(AtomType type)
+AtomNames Chemistry::AtomTypeToNames(AtomType type)
 {
-	return useMap<string, AtomType>(type2str, type);
+	return useMap<AtomNames, AtomType>(type2names, type);
 }
 
 double Chemistry::GetAtomicRadius(AtomType type)
