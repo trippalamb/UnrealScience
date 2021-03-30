@@ -92,6 +92,8 @@ static unordered_map<AtomType, AtomNames> const type2names = {
 //#TODO: find a way to map to instances of atomic properties
 static unordered_map<AtomType, double> const type2radius = {
 	{AtomType::Hydrogen, 0.012},
+	{AtomType::Carbon, 0.0170},
+	{AtomType::Nitrogen, 0.0155},
 	{AtomType::Oxygen, 0.0152}
 };
 
