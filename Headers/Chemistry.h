@@ -6,7 +6,11 @@ using namespace std;
 
 namespace Chemistry
 {
-	enum class AtomType { Hydrogen, Helium, Lithium, Beryllium, Boron, Carbon, Nitrogen, Oxygen, Flourine, Neon };
+	enum class AtomType { 
+		Hydrogen, Helium, 
+		Lithium, Beryllium, Boron, Carbon, Nitrogen, Oxygen, Flourine, Neon,
+		Sodium, Magnesium, Aluminum, Silicon, Phosphorus, Sulfur, Chlorine, Argon
+	};
 	enum class BondType { Single, Double, Triple };
 
 	double GetAtomicRadius(AtomType type);
